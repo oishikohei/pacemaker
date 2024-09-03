@@ -279,6 +279,8 @@ svc_action_t *resources_action_create(const char *name, const char *standard,
 gboolean services_action_kick(const char *name, const char *action,
                               guint interval_ms);
 
+void services_stop_recurring(const char *name);
+
 const char *resources_find_service_class(const char *agent);
 
 /*!

@@ -189,6 +189,8 @@ update_failcount(const xmlNode *event, const char *event_node_uuid, int rc,
     const char *on_uname = pcmk__node_name_from_uuid(event_node_uuid);
     const char *origin = crm_element_value(event, PCMK_XA_CRM_DEBUG_ORIGIN);
 
+    static lrmd_t *lrmd_conn = NULL;
+
     // Nothing needs to be done for success or status refresh
     if (rc == target_rc) {
         return FALSE;
@@ -243,9 +245,8 @@ update_failcount(const xmlNode *event, const char *event_node_uuid, int rc,
         crm_info("Updating %s for %s on %s after failed %s: rc=%d (update=%s, time=%s)",
                  (ignore_failures? "last failure" : "failcount"),
                  rsc_id, on_uname, task, rc, value, now);
-
-        static lrmd_t *lrmd_conn = NULL;
-        lrmd_conn->cmds->stop_recurring(lrmd_conn, options.rsc_id);
+	
+        lrmd_conn->cmds->stop_recurring(lrmd_conn, rsc_id);
 
         /* Update the fail count, if we're not ignoring failures */
         if (!ignore_failures) {

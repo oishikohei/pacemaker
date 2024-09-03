@@ -1826,22 +1826,22 @@ process_lrmd_get_recurring(xmlNode *request, int call_id)
     return reply;
 }
 
-static int
+static void
 stop_recurring(const char *rsc_id)
 {
 
-    services_stop_recurring(rsc_id)
+    services_stop_recurring(rsc_id);
 
 }
 
-static int
+static void
 process_lrmd_stop_recurring(pcmk__client_t *client, uint32_t id, xmlNode *request)
 {
     xmlNode *rsc_xml = get_xpath_object("//" PCMK__XE_LRMD_RSC, request,
                                         LOG_ERR);
     const char *rsc_id = crm_element_value(rsc_xml, PCMK__XA_LRMD_RSC_ID);
 
-    return stop_recurring(rsc_id);
+    stop_recurring(rsc_id);
 }
 
 void
@@ -1951,7 +1951,7 @@ process_lrmd_message(pcmk__client_t *client, uint32_t id, xmlNode *request)
         do_reply = 1;
     } else if (pcmk__str_eq(op, LRMD_OP_STOP_RECURRING, pcmk__str_none)) {
         if (allowed) {
-            rc = process_lrmd_stop_recurring(client, id, request);
+            process_lrmd_stop_recurring(client, id, request);
         } else {
             rc = -EACCES;
         }

@@ -545,7 +545,7 @@ services__finalize_async_op(svc_action_t *op)
             services__set_cancelled(op);
             cancel_recurring_action(op);
 	} else if (op->stop_recurring) {
-            break;
+            cancel_recurring_action(op);
         } else {
             op->opaque->repeat_timer = g_timeout_add(op->interval_ms,
                                                      recurring_action_timer,

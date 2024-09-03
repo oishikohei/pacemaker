@@ -750,6 +750,15 @@ services_action_kick(const char *name, const char *action, guint interval_ms)
 
 }
 
+void
+services_stop_recurring(const char *name)
+{
+    svc_action_t *op = NULL;
+
+    // Tell services__finalize_async_op() not to reschedule the operation
+    op->stop_recurring = TRUE;
+}
+
 /*!
  * \internal
  * \brief Add a new recurring operation, checking for duplicates
@@ -789,21 +798,6 @@ handle_duplicate_recurring(svc_action_t *op)
     return FALSE;
 }
 
-gboolean
-services_stop_recurring(const char *name)
-{
-
-    svc_action_t *op = NULL;
-
-    char *id = pcmk__op_key(name);
-    op = g_hash_table_lookup(id);
-    if (op == NULL) {
-        goto done;
-    }
-
-    // Tell services__finalize_async_op() not to reschedule the operation
-    op->stop_recurring = TRUE;
-}
 
 /*!
  * \internal
