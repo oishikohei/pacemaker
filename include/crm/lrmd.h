@@ -67,6 +67,7 @@ typedef struct lrmd_key_value_s {
 #define LRMD_OP_CHECK             "lrmd_check"
 #define LRMD_OP_ALERT_EXEC        "lrmd_alert_exec"
 #define LRMD_OP_GET_RECURRING     "lrmd_get_recurring"
+#define LRMD_OP_STOP_RECURRING    "lrmd_stop_recurring"
 
 #define LRMD_IPC_OP_NEW           "new"
 #define LRMD_IPC_OP_DESTROY       "destroy"
@@ -468,6 +469,11 @@ typedef struct lrmd_api_operations_s {
                                 char **output, enum lrmd_call_options options,
                                 lrmd_key_value_t *params);
 
+    /*!
+     * \stop recurring
+     */
+    int (*stop_recurring) (lrmd_t *lrmd, const char *rsc_id);
+    
 } lrmd_api_operations_t;
 
 struct lrmd_s {

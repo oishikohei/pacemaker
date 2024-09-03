@@ -173,6 +173,8 @@ typedef struct svc_action_s {
     int synchronous;    // Whether execution should be synchronous (blocking)
     //!@}
 
+    int stop_recurring;
+
     enum svc_action_flags flags;    //!< Flag group of enum svc_action_flags
     char *stderr_data;              //!< Action stderr (set by library)
     char *stdout_data;              //!< Action stdout (set by library)

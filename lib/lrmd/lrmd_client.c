@@ -2133,6 +2133,19 @@ lrmd_api_cancel(lrmd_t *lrmd, const char *rsc_id, const char *action,
 }
 
 static int
+lrmd_api_stop_recurring(lrmd_t *lrmd, const char *rsc_id)
+{
+    int rc = pcmk_ok;
+    xmlNode *data = pcmk__xe_create(NULL, PCMK__XE_LRMD_RSC);
+
+    crm_xml_add(data, PCMK__XA_LRMD_ORIGIN, __func__);
+    crm_xml_add(data, PCMK__XA_LRMD_RSC_ID, rsc_id);
+    rc = lrmd_send_command(lrmd, LRMD_OP_STOP_RECURRING, data, NULL, 0, 0, TRUE);
+    pcmk__xml_free(data);
+    return rc;
+}
+
+static int
 list_stonith_agents(lrmd_list_t ** resources)
 {
     int rc = 0;
@@ -2335,6 +2348,7 @@ lrmd__new(lrmd_t **api, const char *nodename, const char *server, int port)
     (*api)->cmds->list_standards = lrmd_api_list_standards;
     (*api)->cmds->exec_alert = lrmd_api_exec_alert;
     (*api)->cmds->get_metadata_params = lrmd_api_get_metadata_params;
+    (*api)->cmds->stop_recurring = lrmd_api_stop_recurring;
 
     if ((nodename == NULL) && (server == NULL)) {
         pvt->type = pcmk__client_ipc;

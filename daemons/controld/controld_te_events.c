@@ -244,6 +244,9 @@ update_failcount(const xmlNode *event, const char *event_node_uuid, int rc,
                  (ignore_failures? "last failure" : "failcount"),
                  rsc_id, on_uname, task, rc, value, now);
 
+        static lrmd_t *lrmd_conn = NULL;
+        lrmd_conn->cmds->stop_recurring(lrmd_conn, options.rsc_id);
+
         /* Update the fail count, if we're not ignoring failures */
         if (!ignore_failures) {
             fail_pair = pcmk__assert_alloc(1, sizeof(pcmk__attrd_query_pair_t));
