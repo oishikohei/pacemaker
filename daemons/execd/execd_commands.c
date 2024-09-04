@@ -1830,6 +1830,7 @@ static void
 stop_recurring(const char *rsc_id)
 {
 
+    crm_info("stop_recurring実行");
     services_stop_recurring(rsc_id);
 
 }
@@ -1837,10 +1838,12 @@ stop_recurring(const char *rsc_id)
 static void
 process_lrmd_stop_recurring(pcmk__client_t *client, uint32_t id, xmlNode *request)
 {
+ 
     xmlNode *rsc_xml = get_xpath_object("//" PCMK__XE_LRMD_RSC, request,
                                         LOG_ERR);
     const char *rsc_id = crm_element_value(rsc_xml, PCMK__XA_LRMD_RSC_ID);
 
+    crm_info("process_lrmd_stop_recurring実行");
     stop_recurring(rsc_id);
 }
 
@@ -1951,6 +1954,7 @@ process_lrmd_message(pcmk__client_t *client, uint32_t id, xmlNode *request)
         do_reply = 1;
     } else if (pcmk__str_eq(op, LRMD_OP_STOP_RECURRING, pcmk__str_none)) {
         if (allowed) {
+	    crm_info("LRMD_OP_STOP_RECURRING受け取り");
             process_lrmd_stop_recurring(client, id, request);
         } else {
             rc = -EACCES;

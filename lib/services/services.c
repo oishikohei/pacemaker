@@ -753,7 +753,10 @@ services_action_kick(const char *name, const char *action, guint interval_ms)
 void
 services_stop_recurring(const char *name)
 {
+
     svc_action_t *op = NULL;
+
+    crm_info("services_stop_recurring実行");
 
     // Tell services__finalize_async_op() not to reschedule the operation
     op->stop_recurring = TRUE;

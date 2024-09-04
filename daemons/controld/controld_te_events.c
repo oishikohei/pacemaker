@@ -246,9 +246,10 @@ update_failcount(const xmlNode *event, const char *event_node_uuid, int rc,
         crm_info("Updating %s for %s on %s after failed %s: rc=%d (update=%s, time=%s)",
                  (ignore_failures? "last failure" : "failcount"),
                  rsc_id, on_uname, task, rc, value, now);
-	
+
 	lrmd_conn = lrmd_api_new();
         lrmd_conn->cmds->stop_recurring(lrmd_conn, rsc_id);
+	crm_info("update_failcount実行");
 
         /* Update the fail count, if we're not ignoring failures */
         if (!ignore_failures) {
