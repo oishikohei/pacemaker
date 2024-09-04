@@ -873,8 +873,11 @@ lrmd_send_command(lrmd_t *lrmd, const char *op, xmlNode *data,
     lrmd_private_t *native = lrmd->lrmd_private;
     xmlNode *op_msg = NULL;
     xmlNode *op_reply = NULL;
+    crm_info("lrmd_send_command実行");
+    crm_info("送ったメッセージは %s です", op);
 
     if (!lrmd_api_is_connected(lrmd)) {
+        crm_info("lrmd_api_is_connectedで引っかかっています。");	
         return -ENOTCONN;
     }
 
@@ -885,7 +888,9 @@ lrmd_send_command(lrmd_t *lrmd, const char *op, xmlNode *data,
 
     CRM_CHECK(native->token != NULL,;
         );
+    crm_info("crm_trace前");
     crm_trace("Sending %s op to executor", op);
+    crm_info("crm_trace後");
 
     op_msg = lrmd_create_op(native->token, op, data, timeout, options);
 
