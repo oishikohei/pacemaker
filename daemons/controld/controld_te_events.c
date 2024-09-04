@@ -13,6 +13,7 @@
 #include <crm/crm.h>
 #include <crm/cib.h>
 #include <crm/common/xml.h>
+#include <crm/lrmd.h>
 
 #include <pacemaker-controld.h>
 
@@ -246,6 +247,7 @@ update_failcount(const xmlNode *event, const char *event_node_uuid, int rc,
                  (ignore_failures? "last failure" : "failcount"),
                  rsc_id, on_uname, task, rc, value, now);
 	
+	lrmd_conn = lrmd_api_new();
         lrmd_conn->cmds->stop_recurring(lrmd_conn, rsc_id);
 
         /* Update the fail count, if we're not ignoring failures */
