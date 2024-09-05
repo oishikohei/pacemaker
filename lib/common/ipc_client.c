@@ -1077,6 +1077,7 @@ crm_ipc_connected(crm_ipc_t * client)
     }
 
     rc = qb_ipcc_is_connected(client->ipc);
+
     if (rc == FALSE) {
         client->pfd.fd = -EINVAL;
     }

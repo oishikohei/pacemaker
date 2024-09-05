@@ -1826,25 +1826,39 @@ process_lrmd_get_recurring(xmlNode *request, int call_id)
     return reply;
 }
 
-static void
-stop_recurring(const char *rsc_id)
+static int
+stop_recurring(const char *rsc_id, const char *action, guint interval_ms)
 {
 
-    crm_info("stop_recurring実行");
-    services_stop_recurring(rsc_id);
+    //GHashTable *rsc_list = NULL;
+    //lrmd_rsc_t *rsc = g_hash_table_lookup(rsc_list, rsc_id);
 
+    crm_info("stop_recurring実行");
+    //if (services_stop_recurring(rsc_id, normalize_action_name(rsc, action),interval_ms) == TRUE) {
+    if (services_stop_recurring(rsc_id, action, interval_ms) == TRUE) {
+        return pcmk_ok;
+    }
+    return -EOPNOTSUPP;
 }
 
-static void
+static int
 process_lrmd_stop_recurring(pcmk__client_t *client, uint32_t id, xmlNode *request)
 {
  
     xmlNode *rsc_xml = get_xpath_object("//" PCMK__XE_LRMD_RSC, request,
                                         LOG_ERR);
     const char *rsc_id = crm_element_value(rsc_xml, PCMK__XA_LRMD_RSC_ID);
+    const char *action = crm_element_value(rsc_xml, PCMK__XA_LRMD_RSC_ACTION);
+    guint interval_ms = 0;
+
+    crm_element_value_ms(rsc_xml, PCMK__XA_LRMD_RSC_INTERVAL, &interval_ms);
+
+    if (!rsc_id || !action) {
+        return -EINVAL;
+    }
 
     crm_info("process_lrmd_stop_recurring実行");
-    stop_recurring(rsc_id);
+    return stop_recurring(rsc_id, action, interval_ms);
 }
 
 void
@@ -1955,7 +1969,7 @@ process_lrmd_message(pcmk__client_t *client, uint32_t id, xmlNode *request)
     } else if (pcmk__str_eq(op, LRMD_OP_STOP_RECURRING, pcmk__str_none)) {
         if (allowed) {
 	    crm_info("LRMD_OP_STOP_RECURRING受け取り");
-            process_lrmd_stop_recurring(client, id, request);
+            rc = process_lrmd_stop_recurring(client, id, request);
         } else {
             rc = -EACCES;
         }

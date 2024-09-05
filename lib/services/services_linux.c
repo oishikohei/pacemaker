@@ -539,12 +539,14 @@ services__finalize_async_op(svc_action_t *op)
 {
     CRM_CHECK((op != NULL) && !(op->synchronous), return EINVAL);
 
+    crm_info("services__finalize_async_op実行。");
     if (op->interval_ms != 0) {
         // Recurring operations must be either cancelled or rescheduled
         if (op->cancel) {
             services__set_cancelled(op);
             cancel_recurring_action(op);
 	} else if (op->stop_recurring) {
+	    crm_info("op->stop_recurringが効いています。");
             cancel_recurring_action(op);
         } else {
             op->opaque->repeat_timer = g_timeout_add(op->interval_ms,

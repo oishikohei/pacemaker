@@ -750,16 +750,35 @@ services_action_kick(const char *name, const char *action, guint interval_ms)
 
 }
 
-void
-services_stop_recurring(const char *name)
+gboolean
+services_stop_recurring(const char *name, const char *action, guint interval_ms)
 {
 
+    gboolean stoped = TRUE;
+    char *id = pcmk__op_key(name, action, interval_ms);
     svc_action_t *op = NULL;
 
+    /* We can only stop a recurring action */
+    init_recurring_actions();
+    op = g_hash_table_lookup(recurring_actions, id);
+    if (op == NULL) {
+        stoped = FALSE;
+	goto done;
+    }
+
+    //op = new_action();
     crm_info("services_stop_recurring実行");
 
     // Tell services__finalize_async_op() not to reschedule the operation
     op->stop_recurring = TRUE;
+    /* Stop tracking it as a recurring operation, and stop its repeat timer */
+    cancel_recurring_action(op);
+
+    crm_info("stop %s_%u operation for %s", action, name);
+
+done:
+    free(id);
+    return stoped;
 }
 
 /*!

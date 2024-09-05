@@ -173,7 +173,7 @@ typedef struct svc_action_s {
     int synchronous;    // Whether execution should be synchronous (blocking)
     //!@}
 
-    int stop_recurring;
+    int stop_recurring;     // Whether this is a stop of a recurring action
 
     enum svc_action_flags flags;    //!< Flag group of enum svc_action_flags
     char *stderr_data;              //!< Action stderr (set by library)
@@ -279,8 +279,6 @@ svc_action_t *resources_action_create(const char *name, const char *standard,
 gboolean services_action_kick(const char *name, const char *action,
                               guint interval_ms);
 
-void services_stop_recurring(const char *name);
-
 const char *resources_find_service_class(const char *agent);
 
 /*!
@@ -372,6 +370,9 @@ gboolean services_action_async(svc_action_t *op,
                                void (*action_callback) (svc_action_t *));
 
 gboolean services_action_cancel(const char *name, const char *action,
+                                guint interval_ms);
+
+gboolean services_stop_recurring(const char *name, const char *action,
                                 guint interval_ms);
 
 /* functions for alert agents */

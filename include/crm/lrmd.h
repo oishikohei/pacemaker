@@ -472,7 +472,8 @@ typedef struct lrmd_api_operations_s {
     /*!
      * \stop recurring
      */
-    int (*stop_recurring) (lrmd_t *lrmd, const char *rsc_id);
+    int (*stop_recurring) (lrmd_t *lrmd, const char *rsc_id, const char *action,
+                   guint interval_ms);
     
 } lrmd_api_operations_t;
 

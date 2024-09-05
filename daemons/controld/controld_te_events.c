@@ -248,7 +248,8 @@ update_failcount(const xmlNode *event, const char *event_node_uuid, int rc,
                  rsc_id, on_uname, task, rc, value, now);
 
 	lrmd_conn = lrmd_api_new();
-        lrmd_conn->cmds->stop_recurring(lrmd_conn, rsc_id);
+	lrmd_conn->cmds->connect(lrmd_conn, CRM_SYSTEM_CRMD, NULL);
+        lrmd_conn->cmds->stop_recurring(lrmd_conn, rsc_id, task, interval_ms);
 	crm_info("update_failcount実行");
 
         /* Update the fail count, if we're not ignoring failures */

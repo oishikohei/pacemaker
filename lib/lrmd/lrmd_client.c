@@ -354,6 +354,7 @@ lrmd_ipc_dispatch(const char *buffer, ssize_t length, gpointer userdata)
     lrmd_t *lrmd = userdata;
     lrmd_private_t *native = lrmd->lrmd_private;
 
+    crm_info("lrmd_client.cのlrmd_ipc_dispatch実行。");
     if (native->callback != NULL) {
         xmlNode *msg = pcmk__xml_parse(buffer);
 
@@ -833,13 +834,17 @@ static int
 lrmd_api_is_connected(lrmd_t * lrmd)
 {
     lrmd_private_t *native = lrmd->lrmd_private;
+    crm_info("lrmd_api_is_connected入りました");
 
     switch (native->type) {
         case pcmk__client_ipc:
+	    crm_info("pcmk__client_ipcが動いています。");
             return crm_ipc_connected(native->ipc);
         case pcmk__client_tls:
+	    crm_info("pcmk__client_tlsが動いています。");
             return remote_executor_connected(lrmd);
         default:
+	    crm_info("defaultです。");
             crm_err("Unsupported executor connection type (bug?): %d",
                     native->type);
             return 0;
@@ -1609,9 +1614,11 @@ lrmd_tls_connect(lrmd_t * lrmd, int *fd)
 static int
 lrmd_api_connect(lrmd_t * lrmd, const char *name, int *fd)
 {
+
     int rc = -ENOTCONN;
     lrmd_private_t *native = lrmd->lrmd_private;
 
+    crm_info("lrmd_api_connec実行。");
     switch (native->type) {
         case pcmk__client_ipc:
             rc = lrmd_ipc_connect(lrmd, fd);
@@ -2138,7 +2145,8 @@ lrmd_api_cancel(lrmd_t *lrmd, const char *rsc_id, const char *action,
 }
 
 static int
-lrmd_api_stop_recurring(lrmd_t *lrmd, const char *rsc_id)
+lrmd_api_stop_recurring(lrmd_t *lrmd, const char *rsc_id, const char *action,
+                guint interval_ms)
 {
 
 
@@ -2146,8 +2154,10 @@ lrmd_api_stop_recurring(lrmd_t *lrmd, const char *rsc_id)
     xmlNode *data = pcmk__xe_create(NULL, PCMK__XE_LRMD_RSC);
 
     crm_info("lrmd_api_stop_recurring実行");
+    crm_xml_add(data, PCMK__XA_LRMD_RSC_ACTION, action);
     crm_xml_add(data, PCMK__XA_LRMD_ORIGIN, __func__);
     crm_xml_add(data, PCMK__XA_LRMD_RSC_ID, rsc_id);
+    crm_xml_add_ms(data, PCMK__XA_LRMD_RSC_INTERVAL, interval_ms);
     rc = lrmd_send_command(lrmd, LRMD_OP_STOP_RECURRING, data, NULL, 0, 0, TRUE);
     pcmk__xml_free(data);
     return rc;

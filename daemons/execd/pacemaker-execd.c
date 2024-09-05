@@ -127,6 +127,7 @@ lrmd_ipc_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
     pcmk__client_t *client = pcmk__find_client(c);
     xmlNode *request = pcmk__client_data2xml(client, data, &id, &flags);
 
+    crm_info("pacemaker-execd.cのlrmd_ipc_dispatch実行。");
     CRM_CHECK(client != NULL, crm_err("Invalid client");
               return FALSE);
     CRM_CHECK(client->id != NULL, crm_err("Invalid client: %p", client);
