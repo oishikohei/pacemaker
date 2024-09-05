@@ -754,15 +754,14 @@ gboolean
 services_stop_recurring(const char *name, const char *action, guint interval_ms)
 {
 
-    gboolean stoped = TRUE;
+    gboolean stoped = FALSE;
     char *id = pcmk__op_key(name, action, interval_ms);
     svc_action_t *op = NULL;
 
     /* We can only stop a recurring action */
     init_recurring_actions();
     op = g_hash_table_lookup(recurring_actions, id);
-    if (op == NULL) {
-        stoped = FALSE;
+    if (op == NULL) { 
 	goto done;
     }
 
@@ -775,6 +774,21 @@ services_stop_recurring(const char *name, const char *action, guint interval_ms)
     cancel_recurring_action(op);
 
     crm_info("stop %s_%u operation for %s", action, interval_ms, name);
+
+    /*
+    if (op->pid != 0) {
+        crm_info("Terminating in-flight op %s[%d] early because it was  cancelled",
+                 id, op->pid);
+        stoped = mainloop_child_kill(op->pid);
+        if (stoped == FALSE) {
+            crm_err("Termination of %s[%d] failed", id, op->pid);
+        }
+        goto done;
+    }
+    */
+
+    services_action_free(op);
+    stoped = TRUE;
 
 done:
     free(id);
