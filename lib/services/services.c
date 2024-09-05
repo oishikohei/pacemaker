@@ -774,7 +774,7 @@ services_stop_recurring(const char *name, const char *action, guint interval_ms)
     /* Stop tracking it as a recurring operation, and stop its repeat timer */
     cancel_recurring_action(op);
 
-    crm_info("stop %s_%u operation for %s", action, name);
+    crm_info("stop %s_%u operation for %s", action, interval_ms, name);
 
 done:
     free(id);
