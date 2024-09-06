@@ -796,7 +796,7 @@ services_stop_recurring(const char *name, const char *action, guint interval_ms)
     gboolean stoped = FALSE;
     char *id = pcmk__op_key(name, action, interval_ms);
     svc_action_t *op = NULL;
-    guint delay_monitor_interval;
+   // guint delay_monitor_interval;
 
     /* We can only stop a recurring action */
     init_recurring_actions();
@@ -812,24 +812,13 @@ services_stop_recurring(const char *name, const char *action, guint interval_ms)
     op->stop_recurring = TRUE;
  
     // Stop normal recurring operation.
-    if (op->interval_ms > 0) {
-	services_action_kick(name, action, interval_ms);
-	if (handle_duplicate_recurring(op)) {
-            /* entry rescheduled, dup freed */
-            /* exit early */
-	    crm_info("services_stop_recurring内でhandle_duplicate_recurring実行");
-        }
-        //g_hash_table_replace(recurring_actions, op->id, op);
+    if (op->interval_ms > 0 && op->opaque->repeat_timer > 0) {
+	//services_action_kick(name, action, interval_ms);
+        g_source_remove(op->opaque->repeat_timer);
+        op->opaque->repeat_timer = 0;
+	crm_info("Stop normal recurring operation.");
+	stoped = TRUE;
     }
-
-    delay_monitor_interval = op->interval_ms * 10000;
-    op->opaque->repeat_timer = g_timeout_add(op->interval_ms * 10000,recurring_action_timer,(void *) op);
-
-    crm_info("delay_monitor_intervalの値は %d です。", delay_monitor_interval);
-    crm_info("op->opaque->repeat_timerの値は %d です。", op->opaque->repeat_timer);
-    crm_info("stop %s_%u operation for %s", action, interval_ms, name);
-
-    stoped = TRUE;
 done:
     free(id);
     return stoped;

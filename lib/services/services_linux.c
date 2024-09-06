@@ -537,7 +537,7 @@ recurring_action_timer(gpointer data)
 int
 services__finalize_async_op(svc_action_t *op)
 {
-    guint delay_monitor_interval;
+    //guint delay_monitor_interval;
     CRM_CHECK((op != NULL) && !(op->synchronous), return EINVAL);
 
     crm_info("services__finalize_async_op実行。");
@@ -548,11 +548,7 @@ services__finalize_async_op(svc_action_t *op)
             cancel_recurring_action(op);
 	} else if (op->stop_recurring) {
 	    crm_info("op->stop_recurringが効いています。");
-            //cancel_recurring_action(op);
-	    delay_monitor_interval = op->interval_ms * 10000;
-            op->opaque->repeat_timer = g_timeout_add(op->interval_ms * 10000,recurring_action_timer,(void *) op);
-	    crm_info("delay_monitor_intervalの値は %d です。", delay_monitor_interval);
-	    crm_info("op->opaque->repeat_timerの値は %d です。", op->opaque->repeat_timer);
+	    crm_debug("Stop monitor_%d of %s", op->interval_ms, op->id);
         } else {
             op->opaque->repeat_timer = g_timeout_add(op->interval_ms,
                                                      recurring_action_timer,
