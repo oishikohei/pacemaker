@@ -750,51 +750,6 @@ services_action_kick(const char *name, const char *action, guint interval_ms)
 
 }
 
-gboolean
-services_stop_recurring(const char *name, const char *action, guint interval_ms)
-{
-
-    gboolean stoped = FALSE;
-    char *id = pcmk__op_key(name, action, interval_ms);
-    svc_action_t *op = NULL;
-
-    /* We can only stop a recurring action */
-    init_recurring_actions();
-    op = g_hash_table_lookup(recurring_actions, id);
-    if (op == NULL) { 
-	goto done;
-    }
-
-    //op = new_action();
-    crm_info("services_stop_recurring実行");
-
-    // Tell services__finalize_async_op() not to reschedule the operation
-    op->stop_recurring = TRUE;
-    /* Stop tracking it as a recurring operation, and stop its repeat timer */
-    cancel_recurring_action(op);
-
-    crm_info("stop %s_%u operation for %s", action, interval_ms, name);
-
-    /*
-    if (op->pid != 0) {
-        crm_info("Terminating in-flight op %s[%d] early because it was  cancelled",
-                 id, op->pid);
-        stoped = mainloop_child_kill(op->pid);
-        if (stoped == FALSE) {
-            crm_err("Termination of %s[%d] failed", id, op->pid);
-        }
-        goto done;
-    }
-    */
-
-    services_action_free(op);
-    stoped = TRUE;
-
-done:
-    free(id);
-    return stoped;
-}
-
 /*!
  * \internal
  * \brief Add a new recurring operation, checking for duplicates
@@ -834,6 +789,51 @@ handle_duplicate_recurring(svc_action_t *op)
     return FALSE;
 }
 
+gboolean
+services_stop_recurring(const char *name, const char *action, guint interval_ms)
+{
+
+    gboolean stoped = FALSE;
+    char *id = pcmk__op_key(name, action, interval_ms);
+    svc_action_t *op = NULL;
+    guint delay_monitor_interval;
+
+    /* We can only stop a recurring action */
+    init_recurring_actions();
+    op = g_hash_table_lookup(recurring_actions, id);
+    if (op == NULL) {
+        goto done;
+    }
+
+    //op = new_action();
+    crm_info("services_stop_recurring実行");
+
+    // Instructs services__finalize_async_op() not to perform normal recurring operation.
+    op->stop_recurring = TRUE;
+ 
+    // Stop normal recurring operation.
+    if (op->interval_ms > 0) {
+	services_action_kick(name, action, interval_ms);
+	if (handle_duplicate_recurring(op)) {
+            /* entry rescheduled, dup freed */
+            /* exit early */
+	    crm_info("services_stop_recurring内でhandle_duplicate_recurring実行");
+        }
+        //g_hash_table_replace(recurring_actions, op->id, op);
+    }
+
+    delay_monitor_interval = op->interval_ms * 10000;
+    op->opaque->repeat_timer = g_timeout_add(op->interval_ms * 10000,recurring_action_timer,(void *) op);
+
+    crm_info("delay_monitor_intervalの値は %d です。", delay_monitor_interval);
+    crm_info("op->opaque->repeat_timerの値は %d です。", op->opaque->repeat_timer);
+    crm_info("stop %s_%u operation for %s", action, interval_ms, name);
+
+    stoped = TRUE;
+done:
+    free(id);
+    return stoped;
+}
 
 /*!
  * \internal
