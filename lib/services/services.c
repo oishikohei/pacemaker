@@ -796,7 +796,6 @@ services_stop_recurring(const char *name, const char *action, guint interval_ms)
     gboolean stoped = FALSE;
     char *id = pcmk__op_key(name, action, interval_ms);
     svc_action_t *op = NULL;
-   // guint delay_monitor_interval;
 
     /* We can only stop a recurring action */
     init_recurring_actions();
@@ -805,7 +804,6 @@ services_stop_recurring(const char *name, const char *action, guint interval_ms)
         goto done;
     }
 
-    //op = new_action();
     crm_info("services_stop_recurring実行");
 
     // Instructs services__finalize_async_op() not to perform normal recurring operation.
@@ -813,10 +811,9 @@ services_stop_recurring(const char *name, const char *action, guint interval_ms)
  
     // Stop normal recurring operation.
     if (op->interval_ms > 0 && op->opaque->repeat_timer > 0) {
-	//services_action_kick(name, action, interval_ms);
         g_source_remove(op->opaque->repeat_timer);
         op->opaque->repeat_timer = 0;
-	crm_info("Stop normal recurring operation.");
+        crm_debug("Stop monitor_%d of %s", op->interval_ms, op->id);	
 	stoped = TRUE;
     }
 done:

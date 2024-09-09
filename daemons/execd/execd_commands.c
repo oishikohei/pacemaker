@@ -1830,11 +1830,8 @@ static int
 stop_recurring(const char *rsc_id, const char *action, guint interval_ms)
 {
 
-    //GHashTable *rsc_list = NULL;
-    //lrmd_rsc_t *rsc = g_hash_table_lookup(rsc_list, rsc_id);
-
     crm_info("stop_recurring実行");
-    //if (services_stop_recurring(rsc_id, normalize_action_name(rsc, action),interval_ms) == TRUE) {
+
     if (services_stop_recurring(rsc_id, action, interval_ms) == TRUE) {
         return pcmk_ok;
     }

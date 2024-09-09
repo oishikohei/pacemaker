@@ -353,7 +353,7 @@ lrmd_ipc_dispatch(const char *buffer, ssize_t length, gpointer userdata)
 {
     lrmd_t *lrmd = userdata;
     lrmd_private_t *native = lrmd->lrmd_private;
- 
+
     if (native->callback != NULL) {
         xmlNode *msg = pcmk__xml_parse(buffer);
 
@@ -837,9 +837,9 @@ lrmd_api_is_connected(lrmd_t * lrmd)
     switch (native->type) {
         case pcmk__client_ipc:
             return crm_ipc_connected(native->ipc);
-        case pcmk__client_tls: 
+        case pcmk__client_tls:
             return remote_executor_connected(lrmd);
-        default: 
+        default:
             crm_err("Unsupported executor connection type (bug?): %d",
                     native->type);
             return 0;
@@ -886,8 +886,8 @@ lrmd_send_command(lrmd_t *lrmd, const char *op, xmlNode *data,
     }
 
     CRM_CHECK(native->token != NULL,;
-        ); 
-    crm_trace("Sending %s op to executor", op); 
+        );
+    crm_trace("Sending %s op to executor", op);
 
     op_msg = lrmd_create_op(native->token, op, data, timeout, options);
 
@@ -1606,7 +1606,6 @@ lrmd_tls_connect(lrmd_t * lrmd, int *fd)
 static int
 lrmd_api_connect(lrmd_t * lrmd, const char *name, int *fd)
 {
-
     int rc = -ENOTCONN;
     lrmd_private_t *native = lrmd->lrmd_private;
 

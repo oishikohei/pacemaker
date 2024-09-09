@@ -536,8 +536,7 @@ recurring_action_timer(gpointer data)
  */
 int
 services__finalize_async_op(svc_action_t *op)
-{
-    //guint delay_monitor_interval;
+{ 
     CRM_CHECK((op != NULL) && !(op->synchronous), return EINVAL);
 
     crm_info("services__finalize_async_op実行。");
