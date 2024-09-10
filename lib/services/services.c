@@ -813,7 +813,7 @@ services_stop_recurring(const char *name, const char *action, guint interval_ms)
     if (op->interval_ms > 0 && op->opaque->repeat_timer > 0) {
         g_source_remove(op->opaque->repeat_timer);
         op->opaque->repeat_timer = 0;
-        crm_debug("Stop monitor_%d of %s", op->interval_ms, op->id);	
+        crm_debug("Stop %s", op->id);
 	stoped = TRUE;
     }
 done:
