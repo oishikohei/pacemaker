@@ -547,7 +547,7 @@ services__finalize_async_op(svc_action_t *op)
             cancel_recurring_action(op);
 	} else if (op->stop_recurring) {
 	    crm_info("op->stop_recurringが効いています。");
-	    crm_debug("Stop monitor_%d of %s", op->interval_ms, op->id);
+	    crm_debug("Stop %s", op->id);
         } else {
             op->opaque->repeat_timer = g_timeout_add(op->interval_ms,
                                                      recurring_action_timer,
