@@ -1093,9 +1093,10 @@ custom_action(pcmk_resource_t *rsc, char *key, const char *task,
               const pcmk_node_t *on_node, gboolean optional,
               pcmk_scheduler_t *scheduler)
 {
-    crm_info("custom_action実行);
+
     pcmk_action_t *action = NULL;
 
+    crm_info("custom_action実行");
     pcmk__assert((key != NULL) && (task != NULL) && (scheduler != NULL));
 
     action = find_existing_action(key, rsc, on_node, scheduler);

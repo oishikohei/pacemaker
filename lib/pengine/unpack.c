@@ -1301,9 +1301,10 @@ static int
 unpack_node_history(const xmlNode *status, bool fence,
                     pcmk_scheduler_t *scheduler)
 {
-    crm_info("unpack_node_history実行");
+
     int rc = pcmk_rc_ok;
 
+    crm_info("unpack_node_history実行")
     // Loop through all PCMK__XE_NODE_STATE entries in CIB status
     for (const xmlNode *state = pcmk__xe_first_child(status,
                                                      PCMK__XE_NODE_STATE, NULL,
@@ -1406,9 +1407,10 @@ unpack_node_history(const xmlNode *status, bool fence,
 gboolean
 unpack_status(xmlNode *status, pcmk_scheduler_t *scheduler)
 {
-    crm_info("unpack_status実行");
+
     xmlNode *state = NULL;
 
+    crm_info("unpack_status実行");
     crm_trace("Beginning unpack");
 
     if (scheduler->priv->ticket_constraints == NULL) {
@@ -2732,7 +2734,7 @@ static pcmk_resource_t *
 unpack_lrm_resource(pcmk_node_t *node, const xmlNode *lrm_resource,
                     pcmk_scheduler_t *scheduler)
 {
-    crm_info("unpack_lrm_resource実行");
+
     GList *gIter = NULL;
     int stop_index = -1;
     int start_index = -1;
@@ -2750,6 +2752,7 @@ unpack_lrm_resource(pcmk_node_t *node, const xmlNode *lrm_resource,
     enum pcmk__on_fail on_fail = pcmk__on_fail_ignore;
     enum rsc_role_e saved_role = pcmk_role_unknown;
 
+    crm_info("unpack_lrm_resource実行");
     if (rsc_id == NULL) {
         pcmk__config_err("Ignoring invalid " PCMK__XE_LRM_RESOURCE
                          " entry: No " PCMK_XA_ID);
@@ -2890,9 +2893,10 @@ static void
 unpack_node_lrm(pcmk_node_t *node, const xmlNode *xml,
                 pcmk_scheduler_t *scheduler)
 {
-    crm_info("unpack_node_lrm実行");
+
     bool found_removed_launched_resource = false;
 
+    crm_info("unpack_node_lrm実行");
     // Drill down to PCMK__XE_LRM_RESOURCES section
     xml = pcmk__xe_first_child(xml, PCMK__XE_LRM, NULL, NULL);
     if (xml == NULL) {
@@ -3642,7 +3646,7 @@ unpack_rsc_op_failure(struct action_history *history,
                       enum rsc_role_e fail_role, xmlNode **last_failure,
                       enum pcmk__on_fail *on_fail)
 {
-    crm_info("unpack_rsc_op実行");
+
     bool is_probe = false;
     char *last_change_s = NULL;
     pcmk_scheduler_t *scheduler = history->rsc->priv->scheduler;
@@ -3652,6 +3656,7 @@ unpack_rsc_op_failure(struct action_history *history,
     is_probe = pcmk_xe_is_probe(history->xml);
     last_change_s = last_change_str(history->xml);
 
+    crm_info("unpack_rsc_op実行");
     if (!pcmk_is_set(scheduler->flags, pcmk__sched_symmetric_cluster)
         && (history->exit_status == PCMK_OCF_NOT_INSTALLED)) {
         crm_trace("Unexpected result (%s%s%s) was recorded for "

@@ -35,7 +35,7 @@ init_working_set(void)
 static xmlNode *
 handle_pecalc_request(pcmk__request_t *request)
 {
-    crm_info("handle_pecalc_request実行");
+
     static struct series_s {
         const char *name;
         const char *param;
@@ -68,6 +68,7 @@ handle_pecalc_request(pcmk__request_t *request)
     bool is_repoke = false;
     bool process = true;
     pcmk_scheduler_t *scheduler = init_working_set();
+    crm_info("handle_pecalc_request実行");
 
     pcmk__ipc_send_ack(request->ipc_client, request->ipc_id, request->ipc_flags,
                        PCMK__XE_ACK, NULL, CRM_EX_INDETERMINATE);
@@ -198,13 +199,14 @@ handle_hello_request(pcmk__request_t *request)
 static void
 schedulerd_register_handlers(void)
 {
-    crm_info("schedulerd_register_handlers実行");
+
     pcmk__server_command_t handlers[] = {
         { CRM_OP_HELLO, handle_hello_request },
         { CRM_OP_PECALC, handle_pecalc_request },
         { NULL, handle_unknown_request },
     };
 
+    crm_info("schedulerd_register_handlers実行");
     schedulerd_handlers = pcmk__register_handlers(handlers);
 }
 
@@ -221,7 +223,7 @@ pe_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 static int32_t
 pe_ipc_dispatch(qb_ipcs_connection_t * qbc, void *data, size_t size)
 {
-    crm_info("pe_ipc_dispatch実行");
+
     uint32_t id = 0;
     uint32_t flags = 0;
     xmlNode *msg = NULL;
@@ -230,6 +232,7 @@ pe_ipc_dispatch(qb_ipcs_connection_t * qbc, void *data, size_t size)
 
     CRM_CHECK(c != NULL, return 0);
 
+    crm_info("pe_ipc_dispatch実行");
     if (schedulerd_handlers == NULL) {
         schedulerd_register_handlers();
     }

@@ -111,10 +111,11 @@ failcount_clear_action_exists(const pcmk_node_t *node,
 static void
 check_failure_threshold(gpointer data, gpointer user_data)
 {
-    crm_info("check_failure_threshold実行");
+
     pcmk_resource_t *rsc = data;
     const pcmk_node_t *node = user_data;
 
+    crm_info("check_failure_threshold実行");
     // If this is a collective resource, apply recursively to children instead
     if (rsc->priv->children != NULL) {
         g_list_foreach(rsc->priv->children, check_failure_threshold,

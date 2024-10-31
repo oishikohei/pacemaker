@@ -584,9 +584,10 @@ recurring_op_for_inactive(pcmk_resource_t *rsc, const pcmk_node_t *node,
 void
 pcmk__create_recurring_actions(pcmk_resource_t *rsc)
 {
-    crm_info("pcmk__create_recurring_actions実行");
+
     pcmk_action_t *start = NULL;
 
+    crm_info("pcmk__create_recurring_actions実行");
     if (pcmk_is_set(rsc->flags, pcmk__rsc_blocked)) {
         pcmk__rsc_trace(rsc,
                         "Skipping recurring actions for blocked resource %s",
