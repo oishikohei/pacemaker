@@ -1304,7 +1304,7 @@ unpack_node_history(const xmlNode *status, bool fence,
 
     int rc = pcmk_rc_ok;
 
-    crm_info("unpack_node_history実行")
+    crm_info("unpack_node_history実行");
     // Loop through all PCMK__XE_NODE_STATE entries in CIB status
     for (const xmlNode *state = pcmk__xe_first_child(status,
                                                      PCMK__XE_NODE_STATE, NULL,
