@@ -1301,6 +1301,7 @@ static int
 unpack_node_history(const xmlNode *status, bool fence,
                     pcmk_scheduler_t *scheduler)
 {
+    crm_info("unpack_node_history実行");
     int rc = pcmk_rc_ok;
 
     // Loop through all PCMK__XE_NODE_STATE entries in CIB status
@@ -1405,6 +1406,7 @@ unpack_node_history(const xmlNode *status, bool fence,
 gboolean
 unpack_status(xmlNode *status, pcmk_scheduler_t *scheduler)
 {
+    crm_info("unpack_status実行");
     xmlNode *state = NULL;
 
     crm_trace("Beginning unpack");
@@ -2730,6 +2732,7 @@ static pcmk_resource_t *
 unpack_lrm_resource(pcmk_node_t *node, const xmlNode *lrm_resource,
                     pcmk_scheduler_t *scheduler)
 {
+    crm_info("unpack_lrm_resource実行");
     GList *gIter = NULL;
     int stop_index = -1;
     int start_index = -1;
@@ -2887,6 +2890,7 @@ static void
 unpack_node_lrm(pcmk_node_t *node, const xmlNode *xml,
                 pcmk_scheduler_t *scheduler)
 {
+    crm_info("unpack_node_lrm実行");
     bool found_removed_launched_resource = false;
 
     // Drill down to PCMK__XE_LRM_RESOURCES section
@@ -3638,6 +3642,7 @@ unpack_rsc_op_failure(struct action_history *history,
                       enum rsc_role_e fail_role, xmlNode **last_failure,
                       enum pcmk__on_fail *on_fail)
 {
+    crm_info("unpack_rsc_op実行");
     bool is_probe = false;
     char *last_change_s = NULL;
     pcmk_scheduler_t *scheduler = history->rsc->priv->scheduler;

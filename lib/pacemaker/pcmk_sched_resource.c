@@ -591,6 +591,7 @@ bool
 pcmk__threshold_reached(pcmk_resource_t *rsc, const pcmk_node_t *node,
                         pcmk_resource_t **failed)
 {
+    crm_info("pcmk__threshold_reached実行");
     int fail_count, remaining_tries;
     pcmk_resource_t *rsc_to_ban = rsc;
 

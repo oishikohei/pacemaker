@@ -694,6 +694,7 @@ schedule_role_transition_actions(pcmk_resource_t *rsc)
 void
 pcmk__primitive_create_actions(pcmk_resource_t *rsc)
 {
+    crm_info("pcmk__primitive_create_actions実行");
     bool need_stop = false;
     bool need_promote = false;
     bool is_moving = false;

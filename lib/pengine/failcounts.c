@@ -331,6 +331,7 @@ update_failcount_for_attr(gpointer key, gpointer value, gpointer user_data)
 static void
 update_launched_failcount(gpointer data, gpointer user_data)
 {
+    crm_info("?update_launched_failcount実行");
     pcmk_resource_t *launched = data;
     struct failcount_data *fc_data = user_data;
     time_t launched_last_failure = 0;

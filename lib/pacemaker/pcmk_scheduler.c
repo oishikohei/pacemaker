@@ -111,6 +111,7 @@ failcount_clear_action_exists(const pcmk_node_t *node,
 static void
 check_failure_threshold(gpointer data, gpointer user_data)
 {
+    crm_info("check_failure_threshold実行");
     pcmk_resource_t *rsc = data;
     const pcmk_node_t *node = user_data;
 
@@ -262,6 +263,7 @@ apply_shutdown_locks(pcmk_scheduler_t *scheduler)
 static void
 apply_node_criteria(pcmk_scheduler_t *scheduler)
 {
+    crm_info("apply_node_criteria実行");
     crm_trace("Applying node-specific scheduling criteria");
     apply_shutdown_locks(scheduler);
     pcmk__apply_locations(scheduler);
@@ -771,6 +773,7 @@ void
 pcmk__schedule_actions(xmlNode *cib, unsigned long long flags,
                        pcmk_scheduler_t *scheduler)
 {
+    crm_info("pcmk__schedule_actions実行");
     unpack_cib(cib, flags, scheduler);
     pcmk__set_assignment_methods(scheduler);
     pcmk__apply_node_health(scheduler);
