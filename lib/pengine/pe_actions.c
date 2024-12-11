@@ -74,6 +74,7 @@ find_existing_action(const char *key, const pcmk_resource_t *rsc,
     CRM_LOG_ASSERT(!pcmk__list_of_multiple(matches));
 
     action = matches->data;
+    crm_info("actionは%sです", action);
     g_list_free(matches);
     return action;
 }
@@ -1134,6 +1135,7 @@ custom_action(pcmk_resource_t *rsc, char *key, const char *task,
         action->extra = pcmk__strkey_table(free, free);
     }
 
+    crm_info("actionは%sです", action);
     return action;
 }
 
@@ -1452,6 +1454,7 @@ find_actions(GList *input, const char *key, const pcmk_node_t *on_node)
 
     for (; gIter != NULL; gIter = gIter->next) {
         pcmk_action_t *action = (pcmk_action_t *) gIter->data;
+	crm_info("actionは%sです", action);
 
         if (!pcmk__str_eq(key, action->uuid, pcmk__str_casei)) {
             continue;
@@ -1473,6 +1476,7 @@ find_actions(GList *input, const char *key, const pcmk_node_t *on_node)
         }
     }
 
+    crm_info("resultは%sです", result);
     return result;
 }
 

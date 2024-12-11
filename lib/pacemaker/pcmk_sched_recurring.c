@@ -259,6 +259,8 @@ recurring_op_for_active(pcmk_resource_t *rsc, pcmk_action_t *start,
     bool role_match = false;
     enum rsc_role_e monitor_role = op->role;
 
+    crm_info("op->roleは%08Xです", op->role);
+
     // We're only interested in recurring actions for active roles
     if (monitor_role == pcmk_role_stopped) {
         return;
@@ -324,6 +326,7 @@ recurring_op_for_active(pcmk_resource_t *rsc, pcmk_action_t *start,
 
     mon = custom_action(rsc, strdup(op->key), op->name, node, is_optional,
                         rsc->priv->scheduler);
+    crm_info("monは%sです", mon);
 
     if (!pcmk_is_set(start->flags, pcmk__action_runnable)) {
         pcmk__rsc_trace(rsc, "%s is unrunnable because start is", mon->uuid);
@@ -631,6 +634,7 @@ pcmk__create_recurring_actions(pcmk_resource_t *rsc)
         }
 
         if (start != NULL) {
+	    crm_info("recurring_op_for_active(%s %s %s %08X)実行", rsc, start, rsc->priv->assigned_node, &op_history);
             recurring_op_for_active(rsc, start, rsc->priv->assigned_node,
                                     &op_history);
         }
