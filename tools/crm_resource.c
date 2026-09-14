@@ -327,6 +327,15 @@ validate_opt_list(const char *optarg)
     } else if (pcmk__str_eq(optarg, PCMK__VALUE_PRIMITIVE, pcmk__str_none)) {
         options.opt_list = pcmk__opt_primitive;
 
+    } else if (pcmk__str_eq(optarg, PCMK__VALUE_BUNDLE, pcmk__str_none)) {
+        options.opt_list = pcmk__opt_bundle;
+
+    } else if (pcmk__str_eq(optarg, PCMK__VALUE_CLONE, pcmk__str_none)) {
+        options.opt_list = pcmk__opt_clone;
+
+    } else if (pcmk__str_eq(optarg, PCMK__VALUE_GROUP, pcmk__str_none)) {
+        options.opt_list = pcmk__opt_group;
+
     } else {
         return FALSE;
     }
@@ -571,6 +580,9 @@ static GOptionEntry query_entries[] = {
       "List all available options of the given type.\n"
       INDENT "Allowed values:\n"
       INDENT PCMK__VALUE_PRIMITIVE " (primitive resource meta-attributes),\n"
+      INDENT PCMK__VALUE_BUNDLE " (bundle resource meta-attributes),\n"
+      INDENT PCMK__VALUE_CLONE " (clone resource meta-attributes),\n"
+      INDENT PCMK__VALUE_GROUP " (group resource meta-attributes),\n"
       INDENT PCMK_VALUE_FENCING " (parameters common to all fencing resources)",
       "TYPE" },
     { "list-standards", 0, G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK,
@@ -1546,6 +1558,18 @@ handle_list_options(pcmk_resource_t *rsc, pcmk_node_t *node, cib_t *cib_conn,
 
         case pcmk__opt_primitive:
             rc = pcmk__list_primitive_meta(out, options.all);
+            return pcmk_rc2exitc(rc);
+
+        case pcmk__opt_bundle:
+            rc = pcmk__list_bundle_meta(out, options.all);
+            return pcmk_rc2exitc(rc);
+
+        case pcmk__opt_clone:
+            rc = pcmk__list_clone_meta(out, options.all);
+            return pcmk_rc2exitc(rc);
+
+        case pcmk__opt_group:
+            rc = pcmk__list_group_meta(out, options.all);
             return pcmk_rc2exitc(rc);
 
         default:

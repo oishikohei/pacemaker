@@ -153,3 +153,123 @@ pcmk_list_primitive_meta(xmlNode **xml, bool all)
     pcmk__xml_output_finish(out, pcmk_rc2exitc(rc), xml);
     return rc;
 }
+
+/*!
+ * \internal
+ * \brief List meta-attributes applicable to bundle resources as OCF-like XML
+ *
+ * \param[in,out] out  Output object
+ * \param[in]     all  If \c true, include advanced and deprecated options (this
+ *                     is always treated as true for XML output objects)
+ *
+ * \return Standard Pacemaker return code
+ */
+int
+pcmk__list_bundle_meta(pcmk__output_t *out, bool all)
+{
+    const char *name = "bundle-meta";
+    const char *desc_short = "Bundle meta-attributes";
+    const char *desc_long = "Meta-attributes applicable to bundle resources";
+
+    return pcmk__output_primitive_meta(out, name, desc_short, desc_long, all);
+}
+
+// Documented in header
+int
+pcmk_list_bundle_meta(xmlNode **xml, bool all)
+{
+    pcmk__output_t *out = NULL;
+    int rc = pcmk_rc_ok;
+
+    rc = pcmk__xml_output_new(&out, xml);
+    if (rc != pcmk_rc_ok) {
+        return rc;
+    }
+
+    pcmk__register_lib_messages(out);
+
+    rc = pcmk__list_bundle_meta(out, all);
+
+    pcmk__xml_output_finish(out, pcmk_rc2exitc(rc), xml);
+    return rc;
+}
+
+/*!
+ * \internal
+ * \brief List meta-attributes applicable to clone resources as OCF-like XML
+ *
+ * \param[in,out] out  Output object
+ * \param[in]     all  If \c true, include advanced and deprecated options (this
+ *                     is always treated as true for XML output objects)
+ *
+ * \return Standard Pacemaker return code
+ */
+int
+pcmk__list_clone_meta(pcmk__output_t *out, bool all)
+{
+    const char *name = "clone-meta";
+    const char *desc_short = "Clone meta-attributes";
+    const char *desc_long = "Meta-attributes applicable to clone resources";
+
+    return pcmk__output_clone_meta(out, name, desc_short, desc_long, all);
+}
+
+// Documented in header
+int
+pcmk_list_clone_meta(xmlNode **xml, bool all)
+{
+    pcmk__output_t *out = NULL;
+    int rc = pcmk_rc_ok;
+
+    rc = pcmk__xml_output_new(&out, xml);
+    if (rc != pcmk_rc_ok) {
+        return rc;
+    }
+
+    pcmk__register_lib_messages(out);
+
+    rc = pcmk__list_clone_meta(out, all);
+
+    pcmk__xml_output_finish(out, pcmk_rc2exitc(rc), xml);
+    return rc;
+}
+
+/*!
+ * \internal
+ * \brief List meta-attributes applicable to group resources as OCF-like XML
+ *
+ * \param[in,out] out  Output object
+ * \param[in]     all  If \c true, include advanced and deprecated options (this
+ *                     is always treated as true for XML output objects)
+ *
+ * \return Standard Pacemaker return code
+ */
+int
+pcmk__list_group_meta(pcmk__output_t *out, bool all)
+{
+    const char *name = "group-meta";
+    const char *desc_short = "Group meta-attributes";
+    const char *desc_long = "Meta-attributes applicable to group resources";
+
+    return pcmk__output_group_meta(out, name, desc_short, desc_long, all);
+}
+
+// Documented in header
+int
+pcmk_list_froup_meta(xmlNode **xml, bool all)
+{
+    pcmk__output_t *out = NULL;
+    int rc = pcmk_rc_ok;
+
+    rc = pcmk__xml_output_new(&out, xml);
+    if (rc != pcmk_rc_ok) {
+        return rc;
+    }
+
+    pcmk__register_lib_messages(out);
+
+    rc = pcmk__list_group_meta(out, all);
+
+    pcmk__xml_output_finish(out, pcmk_rc2exitc(rc), xml);
+    return rc;
+}

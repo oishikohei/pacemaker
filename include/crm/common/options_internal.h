@@ -86,6 +86,15 @@ enum pcmk__opt_flags {
 
     //! Primitive resource meta-attribute
     pcmk__opt_primitive  = (UINT32_C(1) << 7),
+
+    //! Bundle resource meta-attribute
+    pcmk__opt_bundle  = (UINT32_C(1) << 8),
+
+    //! Clone resource meta-attribute
+    pcmk__opt_clone  = (UINT32_C(1) << 9),
+
+    //! Group resource meta-attribute
+    pcmk__opt_group  = (UINT32_C(1) << 10),
 };
 
 typedef struct {
@@ -119,6 +128,19 @@ int pcmk__output_primitive_meta(pcmk__output_t *out, const char *name,
 int pcmk__daemon_metadata(pcmk__output_t *out, const char *name,
                           const char *short_desc, const char *long_desc,
                           enum pcmk__opt_flags filter);
+
+int pcmk__output_bundle_meta(pcmk__output_t *out, const char *name,
+                                const char *desc_short, const char *desc_long,
+                                bool all);
+
+int pcmk__output_clone_meta(pcmk__output_t *out, const char *name,
+                                const char *desc_short, const char *desc_long,
+                                bool all);
+
+int pcmk__output_group_meta(pcmk__output_t *out, const char *name,
+                                const char *desc_short, const char *desc_long,
+                                bool all);
+
 
 void pcmk__validate_cluster_options(GHashTable *options);
 
@@ -227,6 +249,9 @@ bool pcmk__valid_fencing_watchdog_timeout(const char *value);
 #define PCMK__VALUE_OUTPUT                  "output"
 #define PCMK__VALUE_PASSWORD                "password"
 #define PCMK__VALUE_PRIMITIVE               "primitive"
+#define PCMK__VALUE_BUNDLE                  "bundle"
+#define PCMK__VALUE_CLONE                   "clone"
+#define PCMK__VALUE_GROUP                   "group"
 #define PCMK__VALUE_REFRESH                 "refresh"
 #define PCMK__VALUE_REQUEST                 "request"
 #define PCMK__VALUE_RESPONSE                "response"
