@@ -256,7 +256,7 @@ pcmk__list_group_meta(pcmk__output_t *out, bool all)
 
 // Documented in header
 int
-pcmk_list_froup_meta(xmlNode **xml, bool all)
+pcmk_list_group_meta(xmlNode **xml, bool all)
 {
     pcmk__output_t *out = NULL;
     int rc = pcmk_rc_ok;

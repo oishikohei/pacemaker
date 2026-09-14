@@ -24,6 +24,10 @@ extern "C" {
 int pcmk__list_cluster_options(pcmk__output_t *out, bool all);
 int pcmk__list_fencing_params(pcmk__output_t *out, bool all);
 int pcmk__list_primitive_meta(pcmk__output_t *out, bool all);
+int pcmk__list_bundle_meta(pcmk__output_t *out, bool all);
+int pcmk__list_clone_meta(pcmk__output_t *out, bool all);
+int pcmk__list_group_meta(pcmk__output_t *out, bool all);
+
 
 #ifdef __cplusplus
 }
