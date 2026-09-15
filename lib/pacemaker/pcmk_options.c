@@ -171,7 +171,7 @@ pcmk__list_bundle_meta(pcmk__output_t *out, bool all)
     const char *desc_short = "Bundle meta-attributes";
     const char *desc_long = "Meta-attributes applicable to bundle resources";
 
-    return pcmk__output_primitive_meta(out, name, desc_short, desc_long, all);
+    return pcmk__output_bundle_meta(out, name, desc_short, desc_long, all);
 }
 
 // Documented in header

@@ -458,33 +458,36 @@ int pcmk_list_fencing_params(xmlNode **xml, bool all);
 int pcmk_list_primitive_meta(xmlNode **xml, bool all);
 
 /*!
- * \brief Return constraints that apply to the given ticket
+ * \internal
+ * \brief List meta-attributes applicable to bundle resources as OCF-like XML
  *
- * \param[in,out] xml           The destination for the result, as an XML tree
- * \param[in]     ticket_id     Ticket to find constraint for, or \c NULL for
- *                              all ticket constraints
+ * \param[in,out] out  Output object
+ * \param[in]     all  If \c true, include advanced and deprecated options (this
+ *                     is always treated as true for XML output objects)
  *
  * \return Standard Pacemaker return code
  */
 int pcmk_list_bundle_meta(xmlNode **xml, bool all);
 
 /*!
- * \brief Return constraints that apply to the given ticket
+ * \internal
+ * \brief List meta-attributes applicable to clone resources as OCF-like XML
  *
- * \param[in,out] xml           The destination for the result, as an XML tree
- * \param[in]     ticket_id     Ticket to find constraint for, or \c NULL for
- *                              all ticket constraints
+ * \param[in,out] out  Output object
+ * \param[in]     all  If \c true, include advanced and deprecated options (this
+ *                     is always treated as true for XML output objects)
  *
  * \return Standard Pacemaker return code
  */
 int pcmk_list_clone_meta(xmlNode **xml, bool all);
 
 /*!
- * \brief Return constraints that apply to the given ticket
+ * \internal
+ * \brief List meta-attributes applicable to group resources as OCF-like XML
  *
- * \param[in,out] xml           The destination for the result, as an XML tree
- * \param[in]     ticket_id     Ticket to find constraint for, or \c NULL for
- *                              all ticket constraints
+ * \param[in,out] out  Output object
+ * \param[in]     all  If \c true, include advanced and deprecated options (this
+ *                     is always treated as true for XML output objects)
  *
  * \return Standard Pacemaker return code
  */
