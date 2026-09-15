@@ -1334,7 +1334,7 @@ static const pcmk__cluster_option_t clone_meta[] = {
     },
     {
         PCMK_META_CLONE_MAX, NULL, PCMK_VALUE_SCORE, "Number of nodes in the cluster",
-        "Number of nodes in the cluster"", NULL,
+        "Number of nodes in the cluster", NULL,
         pcmk__opt_none,
         N_("Maximum number of resource copies to start across "
             "the cluster."),
