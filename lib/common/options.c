@@ -1446,7 +1446,7 @@ static const pcmk__cluster_option_t clone_meta[] = {
             "can start, even if interleave=true."),
     },
     {
-        PCMK_META_PROMOTABLE , PCMK_VALUE_BOOLEAN, NULL,
+        PCMK_META_PROMOTABLE, NULL. PCMK_VALUE_BOOLEAN, NULL,
         PCMK_VALUE_FALSE, NULL,
         pcmk__opt_none,
         N_("The number of instances that can be promoted at one time across the entire cluster "
