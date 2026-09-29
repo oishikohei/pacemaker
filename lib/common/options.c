@@ -1286,6 +1286,41 @@ static const pcmk__cluster_option_t bundle_meta[] = {
             "(ocf:pacemaker:remote)."),
         NULL,
     },
+    {
+        PCMK_META_NOTIFY, NULL, PCMK_VALUE_BOOLEAN, NULL,
+        PCMK_VALUE_FALSE, NULL,
+        pcmk__opt_none,
+        N_("Notifies all other copies before and after stopping or "
+            "starting an instance. "),
+        N_("Notifies all other copies before and after stopping or "
+            "starting an instance. "
+            "Allowed values: true, false. "
+            "The default value is false."),
+    },
+    {
+        PCMK_META_ORDERED, NULL, PCMK_VALUE_BOOLEAN, NULL,
+        PCMK_VALUE_FALSE, NULL,
+        pcmk__opt_none,
+        N_("Specifies whether copies start sequentially rather "
+            "than in parallel. "),
+        N_("Specifies whether copies start sequentially rather "
+            "than in parallel. "
+            "Allowed values: true, false. "
+            "The default value is false."),
+    },
+    {
+        PCMK_META_INTERLEAVE, NULL, PCMK_VALUE_BOOLEAN, NULL,
+        PCMK_VALUE_FALSE, NULL,
+        pcmk__opt_none,
+        N_("Modifies ordering constraints so clone copies start or "
+            "stop as soon as the copy on the same node starts or "
+            "stops. "),
+        N_("Modifies ordering constraints so clone copies start or "
+            "stop as soon as the copy on the same node starts or "
+            "stops. "
+            "Allowed values: true, false. The default value "
+            "is false."),
+    },
 
     { NULL, },
 };
@@ -1333,8 +1368,8 @@ static const pcmk__cluster_option_t clone_meta[] = {
             "maintenance resource meta-attribute overrides this."),
     },
     {
-        PCMK_META_CLONE_MAX, NULL, PCMK_VALUE_SCORE, "Number of nodes in the cluster",
-        "Number of nodes in the cluster", NULL,
+        PCMK_META_CLONE_MAX, NULL, PCMK_VALUE_SCORE, NULL,
+        NULL, NULL,
         pcmk__opt_none,
         N_("Maximum number of resource copies to start across "
             "the cluster."),
@@ -1409,6 +1444,15 @@ static const pcmk__cluster_option_t clone_meta[] = {
         N_("Minimum number of running instances required "
             "before dependent clones (ordered after this clone) "
             "can start, even if interleave=true."),
+    },
+    {
+        PCMK_META_PROMOTABLE , PCMK_VALUE_BOOLEAN, NULL,
+        PCMK_VALUE_FALSE, NULL,
+        pcmk__opt_none,
+        N_("The number of instances that can be promoted at one time across the entire cluster "
+            "time across the entire cluster "),
+        N_("If promotable is true, the number of instances that can be promoted at one "
+            "time across the entire cluster "),
     },
     {
         PCMK_META_PROMOTED_MAX, NULL, PCMK_VALUE_SCORE, NULL,
